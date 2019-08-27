@@ -16,7 +16,7 @@ namespace Pointy
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Create class-level accesible variables
-        VideoCapture capture;
+        VideoCapture cap;
         Mat frame;
         private Thread camera;
 
@@ -63,16 +63,18 @@ namespace Pointy
         {
             frame = new Mat();
 
-                   
+            int idx = 0;
+            cap = new VideoCapture(CaptureDevice.DShow, idx);
+            cap.Fps = 120;
+            cap.FrameWidth = 4096;
+            cap.FrameHeight = 2160;
+            cap.FourCC = "MJPG";
 
-            int idx = 2;
-            capture = new VideoCapture(CaptureDevice.DShow, idx);
-            capture.Open(CaptureDevice.DShow, idx);
-            if (capture.IsOpened())
+            if (cap.IsOpened())
             {
                 while (isCameraRunning)
                 {
-                    capture.Read(frame);
+                    cap.Read(frame);
 
                     var bitmap = frame.ToWriteableBitmap();
                     bitmap.Freeze();

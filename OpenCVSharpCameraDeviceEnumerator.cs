@@ -75,6 +75,12 @@ namespace OpenCVDeviceEnumerator
                 {
 
                     VideoCapture cap = new VideoCapture(driverEnum + idx);  // open the camera
+
+                    cap.Fps = 120;
+                    cap.FrameWidth = 4096;
+                    cap.FrameHeight = 2160;
+                    cap.FourCC = "MJPG";
+
                     if (cap.IsOpened())                  // check if we succeeded
                     {
                         Mat frame = new Mat();
@@ -85,7 +91,7 @@ namespace OpenCVDeviceEnumerator
                         if (frame.Empty())
                             Console.WriteLine(driverName + "+" + idx + "\t opens: OK \t grabs: FAIL");
                         else
-                            Console.WriteLine(driverName + "+" + idx + "\t opens: OK \t grabs: OK "+ frame.Width+"x"+ frame.Height);
+                            Console.WriteLine(driverName + "+" + idx + "\t opens: OK \t grabs: OK "+ frame.Width+"x"+ frame.Height+"@"+cap.Fps);
                     }
                     cap.Release();
                 }
